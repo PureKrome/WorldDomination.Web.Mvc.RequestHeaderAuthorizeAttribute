@@ -4,10 +4,11 @@ This library gives the option for an ASP.NET MVC application to accept authorizi
 So how does the Token actually verify that it's legit? Well .. that's the only thing you need to implement. I have no idea how to talk to your database or whatever, so you need to define that.
 
 ###Required Arguments
-```Authorization : a class that impliments ```ICustomAuthorization```. (I explain why, below).
+```Authorization : a class that impliments ICustomAuthorization```. (I explain why, below).
 
 ###Optional Arguments
 ```RequireSsl:``` require the request to be secure? Default is ```false```, and ```LocalHost``` is ignored.
+
 ```Header:``` what header key should we check for? Default is ```Authorization```.
 
 ###Notes
@@ -26,6 +27,8 @@ public ActionResult Post(PostInputModel postInputModel)
 Here, i'm saying that this ActionMethod requires some Token to be provided in the header. Header key is defaulted to ```Authorization```.
 Secondly, I've hardcoded the list of Tokens <-> User Names. (Remember, I said this is a contrite example).
 So the following header will Authorize the request: ```Authorization: aaa```
+
+```Curl: curl -H "Authorization: aaa" http://api.PewPew.com```
 
 Lets try another example, this time with a real ```ICustomAuthorization.cs``` class ...
 
@@ -68,16 +71,19 @@ public class MyDatabaseRequestHeaderAuthorization : ICustomAuthorization.cs
     #endregion
 }
 
-[TokenAuthorize(Authorization = new MyDatabaseRequestHeaderAuthorization(myDatabase), RequireSsl=true, Header="XXX-Token")]
+[TokenAuthorize(Authorization = new MyDatabaseRequestHeaderAuthorization(myDatabase),
+                RequireSsl=true, Header="XXX-Token")]
 public ActionResult Post(PostInputModel postInputModel)
 { ... }
 ```
 
 Ok .. so here we are saying that 
-1. We need to have a secure request
-2. The header key we'll look for is ```XXX-Token```
-3. We ask the database to return the user with the provided token, assuming one was provided correctly.
 
+* We need to have a secure request
+* The header key we'll look for is ```XXX-Token```
+* We ask the database to return the user with the provided token, assuming one was provided correctly.
+
+```Curl: curl -H "XXX-Token: qwerty" https://api.PewPew.com```
 
 ### Pull Requests? 
 Awww yeah! I do accept em *hint thint*
