@@ -1,17 +1,21 @@
+# Archived - 10/04/2021
+
+--
+
 ## Request Header Authorize Attribute for an ASP.NET MVC application
 This library gives the option for an ASP.NET MVC application to accept authorizing credentials via a custom request Http Header. A good example of this is an OAuth Token, Basic Authentication or some custom Api key.
 
 So how does the Token actually verify that it's legit? Well .. that's the only thing you need to implement. I have no idea how to talk to your database or whatever, so you need to define that.
 
-###Required Arguments
+### Required Arguments
 ```Authorization : a class that impliments ICustomAuthorization```. (I explain why, below).
 
-###Optional Arguments
+### Optional Arguments
 ```RequireSsl:``` require the request to be secure? Default is ```false```, and ```LocalHost``` is ignored.
 
 ```Header:``` what header key should we check for? Default is ```Authorization```.
 
-###Notes
+### Notes
 The library includes an ``InMemory`` CustomAuthorization class .. which is just an in memory Dictionary .. pretending it's a database. This can be used for testing or R&D purposes.
 
 So lets see how we can do this :)
